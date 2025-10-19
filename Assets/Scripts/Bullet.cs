@@ -4,25 +4,41 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private float bulletSpeed;
-    private Vector3 moveDir;
+    //private float bulletSpeed;
+    //private Vector3 moveDir;
+    private Rigidbody rb;
     [SerializeField] float life = 3;
+    private Vector3 mouseWorldPosition;
 
     private void Awake() {
         Destroy(gameObject, life); //3sn sonunda yok olur
+        rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    private void Update()
     {
-        transform.position += moveDir * bulletSpeed * Time.deltaTime;
+        //transform.position += moveDir * bulletSpeed * Time.deltaTime;
     }
 
-    public void InitiateBullet(float bulletSpeed, Vector3 moveDir) {
-        this.bulletSpeed = bulletSpeed;
-        this.moveDir = moveDir;
+    public void InitiateBullet(float bulletSpeed, Vector3 moveDir, Vector3 mouseWorldPosition) {
+        this.mouseWorldPosition = mouseWorldPosition;
+        rb.velocity = moveDir * bulletSpeed;
     }
 
-    //private void OnCollisionEnter(Collision collision) { ihtiyaca göre
-        
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
+            rigidbody.AddExplosionForce(1000f, mouseWorldPosition, 5f); //düzgün çalýþmýyor
+        }
+        Destroy(gameObject);
+    }
+
+
+
+    //public void InitiateBullet(float bulletSpeed, Vector3 moveDir) {
+    //    this.bulletSpeed = bulletSpeed;
+    //    this.moveDir = moveDir;
     //}
+
+
 }

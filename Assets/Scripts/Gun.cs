@@ -10,7 +10,7 @@ public class Gun : MonoBehaviour
 
     private bool isFiring;
     private Vector3 mouseWorldPosition;
-    private float rateOfFire = 0.15f;
+    private float rateOfFire = 0.05f;
     private float shootCounter;
 
     private void Update() {
@@ -25,7 +25,7 @@ public class Gun : MonoBehaviour
     public void Shoot() { 
         Vector3 aimDir = (mouseWorldPosition - bulletSpawnPoint.position).normalized;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        bullet.InitiateBullet(bulletSpeed, aimDir);
+        bullet.InitiateBullet(bulletSpeed, aimDir, mouseWorldPosition);
         
     }
 
