@@ -26,7 +26,6 @@ public class Gun : MonoBehaviour
         Vector3 aimDir = (mouseWorldPosition - bulletSpawnPoint.position).normalized;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
         bullet.InitiateBullet(bulletSpeed, aimDir, mouseWorldPosition);
-        
     }
 
     public void SetState(bool isFiring, Vector3 mouseWorldPosition) {

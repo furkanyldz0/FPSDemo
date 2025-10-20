@@ -8,6 +8,7 @@ public class GameInput : MonoBehaviour
 {
     public event EventHandler OnJumpAction;
     public event EventHandler OnLandAction;
+    public event EventHandler OnDashAction;
     //public event EventHandler OnSingleShot;
 
     private InputActionSystem inputActionSystem;
@@ -18,16 +19,22 @@ public class GameInput : MonoBehaviour
         inputActionSystem.Player.Enable();
     }
     private void OnEnable() {
-        inputActionSystem.Player.Sprint.performed += OnSprint;
-        inputActionSystem.Player.Sprint.canceled += OnSprint;
+        //inputActionSystem.Player.Sprint.performed += OnSprint;
+        //inputActionSystem.Player.Sprint.canceled += OnSprint;
         inputActionSystem.Player.Jump.performed += Jump_performed;
         inputActionSystem.Player.Land.performed += Land_performed;
         inputActionSystem.Player.Fire.performed += OnFire;
         inputActionSystem.Player.Fire.canceled += OnFire;
+        inputActionSystem.Player.Dash.performed += Dash_performed;
     }
+
+    private void Dash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnDashAction?.Invoke(this, EventArgs.Empty);
+    }
+
     private void OnDisable() {
-        inputActionSystem.Player.Sprint.performed -= OnSprint;
-        inputActionSystem.Player.Sprint.canceled -= OnSprint;
+        //inputActionSystem.Player.Sprint.performed -= OnSprint;
+        //inputActionSystem.Player.Sprint.canceled -= OnSprint;
         inputActionSystem.Player.Jump.performed -= Jump_performed;
         inputActionSystem.Player.Land.performed -= Land_performed;
         inputActionSystem.Player.Fire.performed -= OnFire;
@@ -52,18 +59,18 @@ public class GameInput : MonoBehaviour
         }
     }
 
-    private void OnSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+    //private void OnSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
 
-        if (obj.performed) {
-            isSprinting = true;
-            //Debug.Log("Sprinting");
-        }
+    //    if (obj.performed) {
+    //        isSprinting = true;
+    //        //Debug.Log("Sprinting");
+    //    }
 
-        if (obj.canceled) {
-            isSprinting = false;
-            //Debug.Log("Sprint canceled");
-        }
-    }
+    //    if (obj.canceled) {
+    //        isSprinting = false;
+    //        //Debug.Log("Sprint canceled");
+    //    }
+    //}
 
     public Vector2 GetMovementVector2() {
         Vector2 inputVector = inputActionSystem.Player.Move.ReadValue<Vector2>(); ;

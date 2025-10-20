@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
     [SerializeReference] private Gun gun;
     private CharacterController characterController;
@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private float landSpeed = -40f;
     private float jumpBufferTime = .1f;
     private float jumpBufferCounter;
+    private float defaultDashTime = .2f;
+    private float dashTimeCounter;
 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
@@ -31,7 +33,12 @@ public class Player : MonoBehaviour
         gameInput.OnJumpAction += GameInput_OnJumpAction;
         gameInput.OnLandAction += GameInput_OnLandAction;
         //gameInput.OnSingleShot += GameInput_OnSingleShot;
+        gameInput.OnDashAction += GameInput_OnDashAction;
         isDoubleJumpAvailable = false;
+    }
+
+    private void GameInput_OnDashAction(object sender, EventArgs e) {
+        dashTimeCounter = defaultDashTime;
     }
 
     //private void GameInput_OnSingleShot(object sender, EventArgs e) {
@@ -53,16 +60,34 @@ public class Player : MonoBehaviour
         HandleJumping();
         HandleMovement();
         HandleShooting();
+        HandleDash();
 
         mouseWorldPosition = Vector3.zero;
 
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) {
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) { //layermaski sil
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
+            if(gameInput.IsFiring() && raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
+                rigidbody.AddExplosionForce(200f, mouseWorldPosition, 5f); //vurulan nesnelerin uçmasý için
+            }
         }
     }
+
+    private void HandleDash() {
+        float dashPower = 2f;
+        Vector2 inputVector = gameInput.GetMovementVector2();
+        Vector3 dashDir = transform.forward * inputVector.y + transform.right * inputVector.x;
+        dashDir =  dashDir.magnitude <= 0f ? transform.forward : dashDir.normalized; //valla ben yazdým
+        
+
+        if(dashTimeCounter > 0f) {
+            dashTimeCounter -= Time.deltaTime;
+            characterController.Move(Time.deltaTime * moveSpeed * dashPower * dashDir);
+        }
+    }
+
     private void HandleShooting() {
         gun.SetState(gameInput.IsFiring(), mouseWorldPosition);
         
@@ -95,12 +120,12 @@ public class Player : MonoBehaviour
         Vector3 moveDirectionXZ = inputVector.x * transform.right + inputVector.y * transform.forward;
         moveDirectionXZ = moveDirectionXZ.normalized;
 
-        if (gameInput.IsSprinting())
-            moveSpeed = 15f;
-        else
-            moveSpeed = 5f;
+        //if (gameInput.IsSprinting())
+        //    moveSpeed = 15f;
+        //else
+        //    moveSpeed = 5f;
+        moveSpeed = 10f;
 
-     
         if (IsGrounded() && playerVelocity.y < 0f) {
             playerVelocity.y = 0f;
         }

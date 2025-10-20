@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     //private float bulletSpeed;
     //private Vector3 moveDir;
     private Rigidbody rb;
-    [SerializeField] float life = 3;
+    [SerializeField] float life = 1.5f;
     private Vector3 mouseWorldPosition;
 
     private void Awake() {
@@ -26,12 +26,12 @@ public class Bullet : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
-            rigidbody.AddExplosionForce(1000f, mouseWorldPosition, 5f); //düzgün çalýþmýyor
-        }
-        Destroy(gameObject);
-    }
+    //private void OnTriggerEnter(Collider other) { mermi hýzlý hareket ettiði için collider düzgün çalýþmýyor
+    //    if(other.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
+    //        //rigidbody.AddExplosionForce(1000f, mouseWorldPosition, 5f); //düzgün çalýþmýyor
+    //    }
+    //    Destroy(gameObject);
+    //}
 
 
 
