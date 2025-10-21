@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
 
     private Vector3 playerVelocity;
-    private bool isDoubleJumpAvailable;
+    private bool isDoubleJumpAvailable, isJumpAvailable;
     private float jumpHeight = 4f;
     private float gravityValue = -9.81f * 2f;
     private float landSpeed = -40f;
@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     private float jumpBufferCounter;
     private float defaultDashTime = .2f;
     private float dashTimeCounter;
+    private float dashEffectCounter;
+    private int dashCounter = 3;
+    private Vector3 dashDir;
 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
@@ -38,7 +41,13 @@ public class Player : MonoBehaviour
     }
 
     private void GameInput_OnDashAction(object sender, EventArgs e) {
-        dashTimeCounter = defaultDashTime;
+        if (dashCounter > 0) {
+            dashCounter--;
+            dashTimeCounter = defaultDashTime;
+            Vector2 inputVector = gameInput.GetMovementVector2();
+            dashDir = transform.forward * inputVector.y + transform.right * inputVector.x;
+            dashDir = dashDir.magnitude <= 0f ? transform.forward : dashDir.normalized; //valla ben yazdým (input yoksa düz ileri dash atsýn)
+        }
     }
 
     //private void GameInput_OnSingleShot(object sender, EventArgs e) {
@@ -77,14 +86,24 @@ public class Player : MonoBehaviour
 
     private void HandleDash() {
         float dashPower = 2f;
-        Vector2 inputVector = gameInput.GetMovementVector2();
-        Vector3 dashDir = transform.forward * inputVector.y + transform.right * inputVector.x;
-        dashDir =  dashDir.magnitude <= 0f ? transform.forward : dashDir.normalized; //valla ben yazdým
-        
 
-        if(dashTimeCounter > 0f) {
+        if (IsGrounded()) {
+            dashCounter = 3;
+        }
+
+        if (dashTimeCounter > 0f) {
             dashTimeCounter -= Time.deltaTime;
             characterController.Move(Time.deltaTime * moveSpeed * dashPower * dashDir);
+            playerVelocity.y = 0;
+            dashEffectCounter = defaultDashTime;
+            //Debug.Log("dash");
+        }
+        else if(dashEffectCounter > 0f) {
+            dashEffectCounter -= Time.deltaTime;
+            float dashEffectPower = (moveSpeed * dashPower) / 3;
+            dashDir = gameInput.GetMovementVector2() == Vector2.zero ? Vector2.zero: dashDir;
+            characterController.Move(Time.deltaTime * dashEffectPower * dashDir);
+            //Debug.Log("dash effect");
         }
     }
 
@@ -102,15 +121,17 @@ public class Player : MonoBehaviour
     private void HandleJumping() {
         jumpBufferCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0f) {
-            if (IsGrounded() || isDoubleJumpAvailable) {
+            if (isJumpAvailable || isDoubleJumpAvailable) { //isJumpAvailable yerine isgrounded vardý
                 Jump();
                 jumpBufferCounter = 0f;
                 isDoubleJumpAvailable = !isDoubleJumpAvailable;
+                isJumpAvailable = false;
             }
         }
 
         if (IsGrounded() && !gameInput.IsJumping()) { //!isjumping olarak da kontrol etmemiz lazým
             isDoubleJumpAvailable = false;
+            isJumpAvailable = true;
         }
     }
 
@@ -118,7 +139,6 @@ public class Player : MonoBehaviour
         Vector2 inputVector = gameInput.GetMovementVector2();
 
         Vector3 moveDirectionXZ = inputVector.x * transform.right + inputVector.y * transform.forward;
-        moveDirectionXZ = moveDirectionXZ.normalized;
 
         //if (gameInput.IsSprinting())
         //    moveSpeed = 15f;
