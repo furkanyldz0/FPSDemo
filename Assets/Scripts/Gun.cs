@@ -7,18 +7,41 @@ public class Gun : MonoBehaviour
     [SerializeField] public Transform bulletSpawnPoint; //tam konumundan çaðýrmak için
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private float bulletSpeed = 70f;
+    [SerializeField] private GameInput gameInput;
 
-    private bool isFiring;
+    public bool IsFiring { get; private set; }
+    public bool IsReloading { get; private set; }
+
     private Vector3 mouseWorldPosition;
     private float rateOfFire = 0.05f;
     private float shootCounter;
 
+    private float defaultReloadTime = 2.2f; //animasyonun süresi, bunu doðrudan almak lazým
+    private float reloadTimeCounter; // (clip'e event ekleyerek sayacý da kaldýrabiliyormuþuz ama ileride yapýcam
+
+    private void Start() {
+        gameInput.OnReloadAction += GameInput_OnReloadAction;
+    }
+
+    private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
+        if (!IsReloading) {
+            IsReloading = true;
+            reloadTimeCounter = defaultReloadTime;
+        }
+    }
+
     private void Update() {
         shootCounter -= Time.deltaTime;
 
-        if (isFiring && shootCounter <= 0f) {
+        if (!IsReloading && (IsFiring && shootCounter <= 0f)) { //
             Shoot();
             shootCounter = rateOfFire;
+        }
+        else if (IsReloading) {
+            reloadTimeCounter -= Time.deltaTime;
+            if(reloadTimeCounter <= 0f) {
+                IsReloading = false;
+            }
         }
     }
 
@@ -29,11 +52,10 @@ public class Gun : MonoBehaviour
     }
 
     public void SetState(bool isFiring, Vector3 mouseWorldPosition) {
-        this.isFiring = isFiring;
+        //this.isFiring = isFiring;
         this.mouseWorldPosition = mouseWorldPosition;
+        IsFiring = isFiring;
     }
-
-    
 }
 
 

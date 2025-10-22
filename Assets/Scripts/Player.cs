@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
     }
 
     private void HandleShooting() {
-        gun.SetState(gameInput.IsFiring(), mouseWorldPosition);
+        gun.SetState(IsShooting(), mouseWorldPosition);
         
     }
 
@@ -178,7 +178,9 @@ public class Player : MonoBehaviour
         return characterController.isGrounded;
     }
 
-
+    public bool IsShooting() {
+        return gameInput.IsFiring();
+    }
 
 
 

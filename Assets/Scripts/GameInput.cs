@@ -10,6 +10,7 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnLandAction;
     public event EventHandler OnDashAction;
     //public event EventHandler OnSingleShot;
+    public event EventHandler OnReloadAction;
 
     private InputActionSystem inputActionSystem;
     private bool isSprinting, isFiring;
@@ -26,6 +27,11 @@ public class GameInput : MonoBehaviour
         inputActionSystem.Player.Fire.performed += OnFire;
         inputActionSystem.Player.Fire.canceled += OnFire;
         inputActionSystem.Player.Dash.performed += Dash_performed;
+        inputActionSystem.Player.Reload.performed += Reload_performed;
+    }
+
+    private void Reload_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnReloadAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void Dash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
@@ -39,6 +45,8 @@ public class GameInput : MonoBehaviour
         inputActionSystem.Player.Land.performed -= Land_performed;
         inputActionSystem.Player.Fire.performed -= OnFire;
         inputActionSystem.Player.Fire.canceled -= OnFire;
+        inputActionSystem.Player.Dash.performed += Dash_performed;
+        inputActionSystem.Player.Reload.performed += Reload_performed;
     }
     
     private void Land_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
