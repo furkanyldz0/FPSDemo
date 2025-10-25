@@ -9,8 +9,8 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnJumpAction;
     public event EventHandler OnLandAction;
     public event EventHandler OnDashAction;
-    //public event EventHandler OnSingleShot;
     public event EventHandler OnReloadAction;
+    public event EventHandler OnInteractAction;
 
     private InputActionSystem inputActionSystem;
     private bool isSprinting, isFiring;
@@ -28,16 +28,8 @@ public class GameInput : MonoBehaviour
         inputActionSystem.Player.Fire.canceled += OnFire;
         inputActionSystem.Player.Dash.performed += Dash_performed;
         inputActionSystem.Player.Reload.performed += Reload_performed;
+        inputActionSystem.Player.Interact.performed += Interact_performed;
     }
-
-    private void Reload_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
-        OnReloadAction?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void Dash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
-        OnDashAction?.Invoke(this, EventArgs.Empty);
-    }
-
     private void OnDisable() {
         //inputActionSystem.Player.Sprint.performed -= OnSprint;
         //inputActionSystem.Player.Sprint.canceled -= OnSprint;
@@ -45,18 +37,26 @@ public class GameInput : MonoBehaviour
         inputActionSystem.Player.Land.performed -= Land_performed;
         inputActionSystem.Player.Fire.performed -= OnFire;
         inputActionSystem.Player.Fire.canceled -= OnFire;
-        inputActionSystem.Player.Dash.performed += Dash_performed;
-        inputActionSystem.Player.Reload.performed += Reload_performed;
+        inputActionSystem.Player.Dash.performed -= Dash_performed;
+        inputActionSystem.Player.Reload.performed -= Reload_performed;
+        inputActionSystem.Player.Interact.performed -= Interact_performed;
     }
-    
+
+    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnInteractAction?.Invoke(this, EventArgs.Empty);
+    }
+    private void Reload_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnReloadAction?.Invoke(this, EventArgs.Empty);
+    }
+    private void Dash_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+        OnDashAction?.Invoke(this, EventArgs.Empty);
+    }
     private void Land_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
         OnLandAction?.Invoke(this, EventArgs.Empty);
     }
-
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
         OnJumpAction?.Invoke(this, EventArgs.Empty);
     } //double jump check için alttakini kullanmam lazým
-
     private void OnFire(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
         if (obj.performed) {
             isFiring = true;

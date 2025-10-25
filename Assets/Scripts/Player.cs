@@ -7,12 +7,22 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { private set; get; }
+    public event EventHandler<OnSelectedGunChangedEventArgs> OnSelectedGunChanged;
+    public class OnSelectedGunChangedEventArgs : EventArgs{
+        public Gun selectedGun;
+    }
+    private Gun selectedGun;
+
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
     [SerializeReference] private Gun gun;
     private CharacterController characterController;
 
     private Vector3 playerVelocity;
+    private Vector3 moveDir;
+    private Vector3 dashDir;
+    private Vector3 lastInteractDir;
     private bool isDoubleJumpAvailable, isJumpAvailable;
     private float jumpHeight = 4f;
     private float gravityValue = -9.81f * 2f;
@@ -23,21 +33,33 @@ public class Player : MonoBehaviour
     private float dashTimeCounter;
     private float dashEffectCounter;
     private int dashCounter = 3;
-    private Vector3 dashDir;
 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     private Vector3 mouseWorldPosition;
 
 
+    private void Awake() {
+        if(Instance != null) {
+            Debug.LogError("Birden fazla player nesnesi var");            
+        }
+        Instance = this;
+    }
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         gameInput.OnJumpAction += GameInput_OnJumpAction;
         gameInput.OnLandAction += GameInput_OnLandAction;
-        //gameInput.OnSingleShot += GameInput_OnSingleShot;
         gameInput.OnDashAction += GameInput_OnDashAction;
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
         isDoubleJumpAvailable = false;
+    }
+
+    private void GameInput_OnInteractAction(object sender, EventArgs e) {
+        if(selectedGun != null) {
+            selectedGun.Interact();
+        }
     }
 
     private void GameInput_OnDashAction(object sender, EventArgs e) {
@@ -49,12 +71,6 @@ public class Player : MonoBehaviour
             dashDir = dashDir.magnitude <= 0f ? transform.forward : dashDir.normalized; //valla ben yazdým (input yoksa düz ileri dash atsýn)
         }
     }
-
-    //private void GameInput_OnSingleShot(object sender, EventArgs e) {
-    //    if(gun != null) {
-    //        gun.Shoot(mouseWorldPosition);
-    //    }
-    //}
 
     private void GameInput_OnLandAction(object sender, EventArgs e) {
         Land();
@@ -70,6 +86,7 @@ public class Player : MonoBehaviour
         HandleMovement();
         HandleShooting();
         HandleDash();
+        HandleInteractions();
 
         mouseWorldPosition = Vector3.zero;
 
@@ -78,45 +95,57 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) { //layermaski sil
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
-            if(gameInput.IsFiring() && raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
+            if (gameInput.IsFiring() && raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
                 rigidbody.AddExplosionForce(200f, mouseWorldPosition, 5f); //vurulan nesnelerin uçmasý için
             }
         }
     }
 
-    private void HandleDash() {
-        float dashPower = 2f;
-
-        if (IsGrounded()) {
-            dashCounter = 3;
+    private void HandleInteractions() {
+        if (moveDir != Vector3.zero) {
+            lastInteractDir = moveDir;
         }
 
-        if (dashTimeCounter > 0f) {
-            dashTimeCounter -= Time.deltaTime;
-            characterController.Move(Time.deltaTime * moveSpeed * dashPower * dashDir);
-            playerVelocity.y = 0;
-            dashEffectCounter = defaultDashTime;
-            //Debug.Log("dash");
+        float interactDistance = 2f;
+
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHitInteract, interactDistance)) {
+
+            if (raycastHitInteract.transform.TryGetComponent(out Gun gun)) {
+                if (gun != selectedGun) {
+                    SetSelectedGun(gun); //event tetikliyor
+                }
+            }
+            else {
+                SetSelectedGun(null);
+            }
         }
-        else if(dashEffectCounter > 0f) {
-            dashEffectCounter -= Time.deltaTime;
-            float dashEffectPower = (moveSpeed * dashPower) / 3;
-            dashDir = gameInput.GetMovementVector2() == Vector2.zero ? Vector2.zero: dashDir;
-            characterController.Move(Time.deltaTime * dashEffectPower * dashDir);
-            //Debug.Log("dash effect");
+        else {
+            SetSelectedGun(null);
         }
     }
 
-    private void HandleShooting() {
-        gun.SetState(IsShooting(), mouseWorldPosition);
-        
-    }
+    private void HandleMovement() {
+        Vector2 inputVector = gameInput.GetMovementVector2();
 
-    //private void HandleShooting() {
-    //    if (gameInput.IsFiring() && gun != null) {
-    //        gun.Shoot(mouseWorldPosition);
-    //    }
-    //}
+        moveDir = inputVector.x * transform.right + inputVector.y * transform.forward;
+
+        //if (gameInput.IsSprinting())
+        //    moveSpeed = 15f;
+        //else
+        //    moveSpeed = 5f;
+        //moveSpeed = 10f;
+
+        if (IsGrounded() && playerVelocity.y < 0f) {
+            playerVelocity.y = 0f;
+        }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+
+        //x,z + y ekseni
+        Vector3 finalMove = (moveDir * moveSpeed) + (playerVelocity.y * Vector3.up);
+
+        characterController.Move(finalMove * Time.deltaTime);
+    }
 
     private void HandleJumping() {
         jumpBufferCounter -= Time.deltaTime;
@@ -135,29 +164,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HandleMovement() {
-        Vector2 inputVector = gameInput.GetMovementVector2();
-
-        Vector3 moveDirectionXZ = inputVector.x * transform.right + inputVector.y * transform.forward;
-
-        //if (gameInput.IsSprinting())
-        //    moveSpeed = 15f;
-        //else
-        //    moveSpeed = 5f;
-        moveSpeed = 10f;
-
-        if (IsGrounded() && playerVelocity.y < 0f) {
-            playerVelocity.y = 0f;
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-
-        //x,z + y ekseni
-        Vector3 finalMove = (moveDirectionXZ * moveSpeed) + (playerVelocity.y * Vector3.up);
-
-        characterController.Move(finalMove * Time.deltaTime);
-    }
-
     private void Jump() {
         //if (IsGrounded()) {
         //    playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
@@ -167,6 +173,37 @@ public class Player : MonoBehaviour
         playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
         
     }
+    private void HandleDash() {
+        float dashPower = 2f;
+
+        if (IsGrounded()) {
+            dashCounter = 3;
+        }
+
+        if (dashTimeCounter > 0f) {
+            dashTimeCounter -= Time.deltaTime;
+            characterController.Move(Time.deltaTime * moveSpeed * dashPower * dashDir);
+            playerVelocity.y = 0;
+            dashEffectCounter = defaultDashTime;
+            //Debug.Log("dash");
+        }
+        else if (dashEffectCounter > 0f) {
+            dashEffectCounter -= Time.deltaTime;
+            float dashEffectPower = (moveSpeed * dashPower) / 3;
+            dashDir = gameInput.GetMovementVector2() == Vector2.zero ? Vector2.zero : dashDir;
+            characterController.Move(Time.deltaTime * dashEffectPower * dashDir);
+            //Debug.Log("dash effect");
+        }
+    }
+
+    private void HandleShooting() {
+        gun.SetState(IsShooting(), mouseWorldPosition);
+    }
+    //private void HandleShooting() {
+    //    if (gameInput.IsFiring() && gun != null) {
+    //        gun.Shoot(mouseWorldPosition);
+    //    }
+    //}
 
     private void Land() {
         if (!IsGrounded()) {
@@ -180,6 +217,14 @@ public class Player : MonoBehaviour
 
     public bool IsShooting() {
         return gameInput.IsFiring();
+    }
+
+    private void SetSelectedGun(Gun selectedGun) {
+        this.selectedGun = selectedGun;
+
+        OnSelectedGunChanged?.Invoke(this, new OnSelectedGunChangedEventArgs {
+            selectedGun = selectedGun
+        });
     }
 
 

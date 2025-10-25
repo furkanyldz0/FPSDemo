@@ -8,7 +8,6 @@ public class Gun : MonoBehaviour
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private float bulletSpeed = 70f;
     [SerializeField] private GameInput gameInput;
-
     public bool IsFiring { get; private set; }
     public bool IsReloading { get; private set; }
 
@@ -44,7 +43,6 @@ public class Gun : MonoBehaviour
             }
         }
     }
-
     public void Shoot() { 
         Vector3 aimDir = (mouseWorldPosition - bulletSpawnPoint.position).normalized;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
@@ -56,6 +54,13 @@ public class Gun : MonoBehaviour
         this.mouseWorldPosition = mouseWorldPosition;
         IsFiring = isFiring;
     }
+    
+    public void Interact() {
+        Debug.Log("Interact!");
+    }
+
+    
+
 }
 
 
