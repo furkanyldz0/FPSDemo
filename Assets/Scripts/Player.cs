@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public class OnSelectedGunChangedEventArgs : EventArgs{
         public Gun selectedGun;
     }
-    private Gun selectedGun;
+    private Gun selectedGun; //sürekli deðiþiyor
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private int dashCounter = 3;
 
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField] private LayerMask interactableLayer = new LayerMask();
     [SerializeField] private Transform debugTransform;
     private Vector3 mouseWorldPosition;
 
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour
         gameInput.OnLandAction += GameInput_OnLandAction;
         gameInput.OnDashAction += GameInput_OnDashAction;
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnReloadAction += GameInput_OnReloadAction;
         isDoubleJumpAvailable = false;
     }
 
@@ -60,6 +62,9 @@ public class Player : MonoBehaviour
         if(selectedGun != null) {
             selectedGun.Interact();
         }
+    }
+    private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
+        gun.Reload();
     }
 
     private void GameInput_OnDashAction(object sender, EventArgs e) {
@@ -99,20 +104,20 @@ public class Player : MonoBehaviour
                 rigidbody.AddExplosionForce(200f, mouseWorldPosition, 5f); //vurulan nesnelerin uçmasý için
             }
         }
+        
+
     }
 
     private void HandleInteractions() {
-        if (moveDir != Vector3.zero) {
-            lastInteractDir = moveDir;
-        }
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        float interactDistance = 2f;
+        float interactDistance = 1.5f;
 
-        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHitInteract, interactDistance)) {
-
-            if (raycastHitInteract.transform.TryGetComponent(out Gun gun)) {
+        if (Physics.Raycast(ray, out RaycastHit raycastHitInteraction, interactDistance, interactableLayer)) { //layer eklemek performansý arttýrýr
+            if (raycastHitInteraction.transform.TryGetComponent(out Gun gun)) {
                 if (gun != selectedGun) {
-                    SetSelectedGun(gun); //event tetikliyor
+                    SetSelectedGun(gun);
                 }
             }
             else {
@@ -199,12 +204,6 @@ public class Player : MonoBehaviour
     private void HandleShooting() {
         gun.SetState(IsShooting(), mouseWorldPosition);
     }
-    //private void HandleShooting() {
-    //    if (gameInput.IsFiring() && gun != null) {
-    //        gun.Shoot(mouseWorldPosition);
-    //    }
-    //}
-
     private void Land() {
         if (!IsGrounded()) {
             playerVelocity.y = landSpeed;
@@ -248,6 +247,36 @@ public class Player : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+    //private void HandleInteractions() { //yaklaþmaya göre interaction
+    //    if (moveDir != Vector3.zero) {
+    //        lastInteractDir = moveDir;
+    //    }
+
+    //    float interactDistance = 2f;
+
+    //    if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHitInteract, interactDistance)) {
+
+    //        if (raycastHitInteract.transform.TryGetComponent(out Gun gun)) {
+    //            if (gun != selectedGun) {
+    //                SetSelectedGun(gun); //event tetikliyor
+    //            }
+    //        }
+    //        else {
+    //            SetSelectedGun(null);
+    //        }
+    //    }
+    //    else {
+    //        SetSelectedGun(null);
+    //    }
+    //}
 
 
     //private void HandleMovement() { capsule cast ile kendimiz collision kontrol etmek istersek

@@ -7,7 +7,7 @@ public class Gun : MonoBehaviour
     [SerializeField] public Transform bulletSpawnPoint; //tam konumundan çaðýrmak için
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private float bulletSpeed = 70f;
-    [SerializeField] private GameInput gameInput;
+    //[SerializeField] private GameInput gameInput; sihahlara gameinput nesnesini geçmemelisin, gameinput scripti birden fazla kez çalýþabilir
     public bool IsFiring { get; private set; }
     public bool IsReloading { get; private set; }
 
@@ -18,11 +18,7 @@ public class Gun : MonoBehaviour
     private float defaultReloadTime = 2.2f; //animasyonun süresi, bunu doðrudan almak lazým
     private float reloadTimeCounter; // (clip'e event ekleyerek sayacý da kaldýrabiliyormuþuz ama ileride yapýcam
 
-    private void Start() {
-        gameInput.OnReloadAction += GameInput_OnReloadAction;
-    }
-
-    private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
+    public void Reload() {
         if (!IsReloading) {
             IsReloading = true;
             reloadTimeCounter = defaultReloadTime;
@@ -59,24 +55,4 @@ public class Gun : MonoBehaviour
         Debug.Log("Interact!");
     }
 
-    
-
 }
-
-
-
-
-//// --- YENÝ KOMUT METOTLARI ---
-//public void StartShooting() {  //gameinput'dan event oluþturup player'dan bu fonksiyonlarý çaðýrabiliriz
-//    isFiring = true;           //Bu yapýda Player'ýn Update'i, her kare gun.UpdateAimPosition(mouseWorldPosition)'ý çaðýrýr ama Start/StopShooting sadece tuþa basýlýp býrakýldýðýnda bir kez çaðrýlýr.
-                                    //diyor gemini
-//}
-
-//public void StopShooting() {
-//    isFiring = false;
-//}
-
-//// Niþan alma pozisyonunu güncellemek için ayrý bir metot
-//public void UpdateAimPosition(Vector3 newPosition) {
-//    aimTargetPosition = newPosition;
-//}

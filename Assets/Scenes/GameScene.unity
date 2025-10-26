@@ -5031,6 +5031,9 @@ MonoBehaviour:
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 128
   debugTransform: {fileID: 1833697044}
 --- !u!4 &4060144557150156015
 Transform:
