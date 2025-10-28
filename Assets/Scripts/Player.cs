@@ -16,8 +16,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
-    [SerializeReference] private Gun gun;
+    [SerializeField] private Gun gun;
     private CharacterController characterController;
+    private PickUpController pickUpController;
 
     private Vector3 playerVelocity;
     private Vector3 moveDir;
@@ -45,6 +46,8 @@ public class Player : MonoBehaviour
             Debug.LogError("Birden fazla player nesnesi var");            
         }
         Instance = this;
+
+        pickUpController = GetComponentInChildren<PickUpController>();
     }
 
     private void Start()
@@ -60,7 +63,9 @@ public class Player : MonoBehaviour
 
     private void GameInput_OnInteractAction(object sender, EventArgs e) {
         if(selectedGun != null) {
-            selectedGun.Interact();
+            //selectedGun.Interact();
+            pickUpController.PickUpGun(selectedGun);
+            gun = selectedGun;
         }
     }
     private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
@@ -112,7 +117,7 @@ public class Player : MonoBehaviour
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        float interactDistance = 1.5f;
+        float interactDistance = 2f;
 
         if (Physics.Raycast(ray, out RaycastHit raycastHitInteraction, interactDistance, interactableLayer)) { //layer eklemek performansý arttýrýr
             if (raycastHitInteraction.transform.TryGetComponent(out Gun gun)) {
@@ -225,9 +230,9 @@ public class Player : MonoBehaviour
             selectedGun = selectedGun
         });
     }
-
-
-
+    public Gun GetCurrentGun() {
+        return gun;
+    }
 
 
 

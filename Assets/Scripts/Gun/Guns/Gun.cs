@@ -15,7 +15,7 @@ public class Gun : MonoBehaviour
     private float rateOfFire = 0.05f;
     private float shootCounter;
 
-    private float defaultReloadTime = 2.2f; //animasyonun süresi, bunu doðrudan almak lazým
+    private float defaultReloadTime = 2.4f; //animasyonun süresi, bunu doðrudan almak lazým
     private float reloadTimeCounter; // (clip'e event ekleyerek sayacý da kaldýrabiliyormuþuz ama ileride yapýcam
 
     public void Reload() {
