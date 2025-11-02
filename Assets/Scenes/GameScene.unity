@@ -638,7 +638,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366947765}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -743,6 +743,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1115664642}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &375965403 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4125193604694938568, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+    type: 3}
+  m_PrefabInstance: {fileID: 1434318728}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &403982858
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +777,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403982858}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1448,7 +1454,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790722113}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1735,7 +1741,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925386263}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1868,7 +1874,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951631339}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -2868,6 +2874,21 @@ PrefabInstance:
       propertyPath: gameInput
       value: 
       objectReference: {fileID: 1656414413}
+    - target: {fileID: 5686950082635384008, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 375965403}
+    - target: {fileID: 5686950082635384008, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707421996667207768, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: debugTransformObject
+      value: 
+      objectReference: {fileID: 1833697044}
     - target: {fileID: 9166417469543729685, guid: 28fd76a95a25b0f48b01e54314b7fc45,
         type: 3}
       propertyPath: m_Enabled
@@ -2943,7 +2964,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515830015}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -3483,7 +3504,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783413371}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -3771,7 +3792,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 4.74}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -4517,7 +4538,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008283083}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -4833,18 +4854,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &486765992430924479 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5288852798122178629, guid: 28fd76a95a25b0f48b01e54314b7fc45,
-    type: 3}
-  m_PrefabInstance: {fileID: 1502774809345877541}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1c71212a1c3544484ed0780b79fa50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &1421087144958591578
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4976,11 +4985,21 @@ PrefabInstance:
       propertyPath: gameInput
       value: 
       objectReference: {fileID: 1656414413}
+    - target: {fileID: 5288852798122178629, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5642073338217661267, guid: 28fd76a95a25b0f48b01e54314b7fc45,
         type: 3}
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5707421996667207768, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: debugTransformObject
+      value: 
+      objectReference: {fileID: 1833697044}
     - target: {fileID: 6078604473245956715, guid: 28fd76a95a25b0f48b01e54314b7fc45,
         type: 3}
       propertyPath: m_Enabled
@@ -4996,7 +5015,8 @@ PrefabInstance:
       propertyPath: m_ExcludeLayers.m_Bits
       value: 64
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3280022932003099020, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -5033,14 +5053,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 12
   gameInput: {fileID: 1656414413}
-  gun: {fileID: 486765992430924479}
-  aimColliderLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
+  gun: {fileID: 8684424426661304564}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 128
-  debugTransform: {fileID: 1833697044}
 --- !u!4 &4060144557150156015
 Transform:
   m_ObjectHideFlags: 0
@@ -5227,6 +5243,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1502774809345877541}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8684424426661304564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5707421996667207768, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+    type: 3}
+  m_PrefabInstance: {fileID: 1502774809345877541}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1c71212a1c3544484ed0780b79fa50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8948736392961124227
 Transform:
   m_ObjectHideFlags: 0

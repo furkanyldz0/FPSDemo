@@ -35,9 +35,9 @@ public class Player : MonoBehaviour
     private float dashEffectCounter;
     private int dashCounter = 3;
 
-    [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+    //[SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private LayerMask interactableLayer = new LayerMask();
-    [SerializeField] private Transform debugTransform;
+    //[SerializeField] private Transform debugTransform;
     private Vector3 mouseWorldPosition;
 
 
@@ -100,17 +100,19 @@ public class Player : MonoBehaviour
 
         mouseWorldPosition = Vector3.zero;
 
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) { //layermaski sil
-            debugTransform.position = raycastHit.point;
-            mouseWorldPosition = raycastHit.point;
-            if (gameInput.IsFiring() && raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
-                rigidbody.AddExplosionForce(200f, mouseWorldPosition, 5f); //vurulan nesnelerin uçmasý için
-            }
-        }
-        
+        //Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        //Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        //if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)) { //layermaski sil
+        //    //debugTransform.position = raycastHit.point;
+        //    mouseWorldPosition = raycastHit.point;
+        //    if (gameInput.IsFiring() && raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody)) {
+        //        //rigidbody.AddExplosionForce(200f, mouseWorldPosition, 5f); //vurulan nesnelerin uçmasý için
+        //    }
+        //}
 
+        if (Input.GetKeyDown(KeyCode.G)) {
+            pickUpController.DropCurrentGun();
+        }
     }
 
     private void HandleInteractions() {
@@ -207,7 +209,8 @@ public class Player : MonoBehaviour
     }
 
     private void HandleShooting() {
-        gun.SetState(IsShooting(), mouseWorldPosition);
+        //gun.SetState(IsShooting(), mouseWorldPosition);
+        gun.SetState(IsShooting());
     }
     private void Land() {
         if (!IsGrounded()) {

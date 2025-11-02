@@ -32,23 +32,25 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
     }
 
     public void DropCurrentGun() {
-        DisableGun(currentGun);
-        currentGun.transform.SetParent(null);
+        if(currentGun != null) {
+            DisableGun(currentGun);
+            currentGun.transform.SetParent(null);
 
-        var currentGunRb = currentGun.GetComponent<Rigidbody>();
-        float dropForwardForce = 2f;
-        float dropUpwardForce = 2f;
+            var currentGunRb = currentGun.GetComponent<Rigidbody>();
+            float dropForwardForce = 2f;
+            float dropUpwardForce = 2f;
 
-        currentGunRb.velocity = player.GetComponent<CharacterController>().velocity;
+            currentGunRb.velocity = player.GetComponent<CharacterController>().velocity;
 
-        currentGunRb.AddForce(player.transform.forward * dropForwardForce, ForceMode.Impulse);
-        currentGunRb.AddForce(player.transform.up * dropUpwardForce, ForceMode.Impulse);
+            currentGunRb.AddForce(player.transform.forward * dropForwardForce, ForceMode.Impulse);
+            currentGunRb.AddForce(player.transform.up * dropUpwardForce, ForceMode.Impulse);
 
-        float random = UnityEngine.Random.Range(-1f,1f);
-        currentGunRb.AddTorque(new Vector3(random, random, random) * 10);
+            float random = UnityEngine.Random.Range(-1f, 1f);
+            currentGunRb.AddTorque(new Vector3(random, random, random) * 10);
 
-
-
+            currentGunRb = null;
+            currentGun = null; //havadayken de g'ye basabiliyor null olmazsa
+        }
     }
 
     private void DisableGun(Gun gun) {

@@ -14,7 +14,7 @@ public class GunAnimator : MonoBehaviour //script gun'lardan baðýmsýz aslýnda
     }
 
     private void Update() {
-        if (gun.IsFiring) {
+        if (gun.IsShooting) {
             animator.SetBool("IsShooting", true);
         }
         else{

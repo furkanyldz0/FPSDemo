@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45c7ade21e4a964e831a9a61e95cbdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedGun: {fileID: 5288852798122178629}
+  SelectedGun: {fileID: 5707421996667207768}
   VisualGameObject: {fileID: 269530279027649036}
   SelectedGameObject: {fileID: 3957523714748051016}
 --- !u!1 &3444928041676279904
@@ -89,11 +89,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 833469375071390434}
-  - component: {fileID: 5288852798122178629}
-  - component: {fileID: 3344759285744794860}
   - component: {fileID: 4125193604694938568}
   - component: {fileID: 9166417469543729685}
   - component: {fileID: 5642073338217661267}
+  - component: {fileID: 5686950082635384008}
+  - component: {fileID: 5707421996667207768}
   m_Layer: 7
   m_Name: M249
   m_TagString: Untagged
@@ -119,37 +119,6 @@ Transform:
   - {fileID: 5619853386744301032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5288852798122178629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3444928041676279904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1c71212a1c3544484ed0780b79fa50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpawnPoint: {fileID: 1499967736129612774}
-  bulletPrefab: {fileID: -1885764513374390666, guid: 50ee4341794404e439433cdb2df6b81e,
-    type: 3}
-  bulletSpeed: 150
---- !u!114 &3344759285744794860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3444928041676279904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1d1ea9fc9bbb644ad9d23c7880721d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 4125193604694938568}
-  animationSpeed: 1.25
-  gun: {fileID: 5288852798122178629}
 --- !u!95 &4125193604694938568
 Animator:
   serializedVersion: 5
@@ -204,7 +173,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 4
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -221,6 +190,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5686950082635384008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444928041676279904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1d1ea9fc9bbb644ad9d23c7880721d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4125193604694938568}
+  animationSpeed: 1.25
+  gun: {fileID: 5707421996667207768}
+--- !u!114 &5707421996667207768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444928041676279904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1c71212a1c3544484ed0780b79fa50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawnPoint: {fileID: 1499967736129612774}
+  bulletPrefab: {fileID: 8392296673043973569, guid: 50ee4341794404e439433cdb2df6b81e,
+    type: 3}
+  BulletHolePrefab: {fileID: 2081735122221534325, guid: 6b2f0e6b60bb87945a63f626b19b6e06,
+    type: 3}
+  debugTransformObject: {fileID: 0}
 --- !u!1 &4691265498687988389
 GameObject:
   m_ObjectHideFlags: 0
