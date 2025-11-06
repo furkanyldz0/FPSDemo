@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunAnimator : MonoBehaviour //script gun'lardan baðýmsýz aslýnda
+public class GunAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    //[SerializeField] private Player player;
     [SerializeField] private float animationSpeed = 1.25f;
     [SerializeField] private Gun gun;
 

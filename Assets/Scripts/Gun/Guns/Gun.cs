@@ -6,12 +6,13 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] public Transform bulletSpawnPoint; //tam konumundan çaðýrmak için
     [SerializeField] private Bullet bulletPrefab;
-    [SerializeField] private GameObject BulletHolePrefab;
+    [SerializeField] private GameObject bulletHolePrefab;
+    [SerializeField] private ParticleSystem muzzleEffect;
     public bool IsReloading { get; private set; }
     public bool IsShooting { get; private set; }
 
     private Vector3 mouseWorldPosition;
-    private float rateOfFire = 0.05f;
+    private float rateOfFire = 0.07f;
     private float shootCounter;
 
     private float defaultReloadTime = 2.4f; //animasyonun süresi, bunu doðrudan almak lazým
@@ -50,10 +51,11 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f)) {
             debugTransformObject.position = raycastHit.point;
             CreateBulletHole(raycastHit);
-            if(raycastHit.transform.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rb)) {
+            if(raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rb)) {
                 rb.AddExplosionForce(500f, raycastHit.point, 5f);
             }
         }
+        muzzleEffect.Play();
     }
 
     
@@ -72,14 +74,14 @@ public class Gun : MonoBehaviour
         var bulletHoleRotation = Quaternion.LookRotation(raycastHit.normal);
 
         // 3. Mermi deliðini DÜNYADA (ebeveynsiz) oluþtur
-        var bulletHole = Instantiate(BulletHolePrefab, bulletHoleSpawnPoint, bulletHoleRotation);
+        var bulletHole = Instantiate(bulletHolePrefab, bulletHoleSpawnPoint, bulletHoleRotation);
 
         // 4. Vurulan objenin transform'unu ve ölçeðini al
         Transform parentObject = raycastHit.transform;
         Vector3 parentScale = parentObject.lossyScale;
 
         // 5. Prefab'ýn kendi varsayýlan ölçeðini al
-        Vector3 prefabScale = BulletHolePrefab.transform.localScale;
+        Vector3 prefabScale = bulletHolePrefab.transform.localScale;
 
         // 6. Ebeveynin ölçeðinin simetrik (uniform) olup olmadýðýný kontrol et
         bool isUniformScale = Mathf.Approximately(parentScale.x, parentScale.y) &&

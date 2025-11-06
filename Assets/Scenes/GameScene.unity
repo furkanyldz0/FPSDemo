@@ -4995,6 +4995,11 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5686950082635384008, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: muzzle
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5707421996667207768, guid: 28fd76a95a25b0f48b01e54314b7fc45,
         type: 3}
       propertyPath: debugTransformObject
@@ -5017,7 +5022,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3280022932003099020, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 340903759233668881, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
+    - {fileID: 340903759233668887, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
+    - {fileID: 1288008054235431456, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28fd76a95a25b0f48b01e54314b7fc45, type: 3}
