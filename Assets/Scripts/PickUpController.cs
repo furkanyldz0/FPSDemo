@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class PickUpController : MonoBehaviour //bu script sadece weaponholder nesnesine atalý
 {
-    private Gun currentGun;
+    private GunController currentGun;
     private Player player;
     void Start()
     {
         player = Player.Instance;
 
-        Gun[] guns = FindObjectsByType<Gun>(FindObjectsSortMode.None);
-        foreach(Gun g in guns) {
+        GunController[] guns = FindObjectsByType<GunController>(FindObjectsSortMode.None);
+        foreach(GunController g in guns) {
             DisableGun(g);
         }
 
@@ -21,7 +21,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
     }
 
 
-    public void PickUpGun(Gun gun) {
+    public void PickUpGun(GunController gun) {
         DropCurrentGun();
         currentGun = gun;
         currentGun.transform.SetParent(transform);
@@ -53,7 +53,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         }
     }
 
-    private void DisableGun(Gun gun) {
+    private void DisableGun(GunController gun) {
         gun.enabled = false;
         gun.GetComponent<GunAnimator>().enabled = false; //animator scriptini kapatýyoruz direkt
         gun.GetComponent<Animator>().enabled = false;
@@ -61,7 +61,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         gun.GetComponent<Rigidbody>().isKinematic = false;
         gun.GetComponent<Rigidbody>().useGravity = true;
     }
-    private void EnableGun(Gun gun) {
+    private void EnableGun(GunController gun) {
         gun.enabled = true;
         gun.GetComponent<GunAnimator>().enabled = true; //animator scriptini kapatýyoruz direkt
         gun.GetComponent<Animator>().enabled = true;

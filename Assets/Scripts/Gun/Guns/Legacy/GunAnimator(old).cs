@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GunAnimatorOld : MonoBehaviour {
+    [SerializeField] private Animator animator;
+    [SerializeField] private float animationSpeed;
+    [SerializeField] private GunController gun;
+
+    private void Start() {
+        animator.SetFloat("SpeedMultiplier", animationSpeed);
+    }
+
+    private void Update() {
+        if (gun.IsShooting) {
+            animator.SetBool("IsShooting", true);
+        }
+        else {
+            animator.SetBool("IsShooting", false);
+        }
+        if (gun.IsReloading) {
+            animator.SetBool("IsReloading", true);
+        }
+        else {
+            animator.SetBool("IsReloading", false);
+        }
+    }
+}

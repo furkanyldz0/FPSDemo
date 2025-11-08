@@ -10,13 +10,13 @@ public class Player : MonoBehaviour
     public static Player Instance { private set; get; }
     public event EventHandler<OnSelectedGunChangedEventArgs> OnSelectedGunChanged;
     public class OnSelectedGunChangedEventArgs : EventArgs{
-        public Gun selectedGun;
+        public GunController selectedGun;
     }
-    private Gun selectedGun; //sürekli deðiþiyor
+    private GunController selectedGun; //sürekli deðiþiyor
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private Gun gun;
+    [SerializeField] private GunController gun;
     private CharacterController characterController;
     private PickUpController pickUpController;
 
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
         float interactDistance = 2f;
 
         if (Physics.Raycast(ray, out RaycastHit raycastHitInteraction, interactDistance, interactableLayer)) { //layer eklemek performansý arttýrýr
-            if (raycastHitInteraction.transform.TryGetComponent(out Gun gun)) {
+            if (raycastHitInteraction.transform.TryGetComponent(out GunController gun)) {
                 if (gun != selectedGun) {
                     SetSelectedGun(gun);
                 }
@@ -226,14 +226,14 @@ public class Player : MonoBehaviour
         return gameInput.IsFiring();
     }
 
-    private void SetSelectedGun(Gun selectedGun) {
+    private void SetSelectedGun(GunController selectedGun) {
         this.selectedGun = selectedGun;
 
         OnSelectedGunChanged?.Invoke(this, new OnSelectedGunChangedEventArgs {
             selectedGun = selectedGun
         });
     }
-    public Gun GetCurrentGun() {
+    public GunController GetCurrentGun() {
         return gun;
     }
 

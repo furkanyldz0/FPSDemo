@@ -2,37 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class GunController : MonoBehaviour
 {
-    [SerializeField] public Transform bulletSpawnPoint; //tam konumundan çaðýrmak için
-    [SerializeField] private Bullet bulletPrefab;
+    private IGun gunType;
+    //[SerializeField] private Transform bulletSpawnPoint; //tam konumundan çaðýrmak için
+    //[SerializeField] private Bullet bulletPrefab;
     [SerializeField] private GameObject bulletHolePrefab;
     [SerializeField] private ParticleSystem muzzleEffect;
+    [SerializeField] private GunAnimator gunAnimatorManager;
     public bool IsReloading { get; private set; }
     public bool IsShooting { get; private set; }
 
     private Vector3 mouseWorldPosition;
-    private float rateOfFire = 0.07f;
+    private float RATE_OF_FIRE; //= 0.07f;
+    private float DEFAULT_RELOAD_TIME;// = 2.4f animasyonun süresi, bunu doðrudan almak lazým
     private float shootCounter;
-
-    private float defaultReloadTime = 2.4f; //animasyonun süresi, bunu doðrudan almak lazým
     private float reloadTimeCounter; // (clip'e event ekleyerek sayacý da kaldýrabiliyormuþuz ama ileride yapýcam
 
-    [SerializeField] private Transform debugTransformObject;
+    //[SerializeField] private Transform debugTransformObject;
 
-    public void Reload() {
-        if (!IsReloading) {
-            IsReloading = true;
-            reloadTimeCounter = defaultReloadTime;
-        }
+    private void Start() {
+        gunType = GetComponent<IGun>(); //artýk her silah için farklý script yazmama gerek yok (?)
+        RATE_OF_FIRE = gunType.RATE_OF_FIRE;
+        DEFAULT_RELOAD_TIME = gunType.RELOAD_TIME;
     }
-
     private void Update() {
 
         shootCounter -= Time.deltaTime;
 
         if (!IsReloading && (IsShooting && shootCounter <= 0f)) { //
-            shootCounter = rateOfFire;
+            shootCounter = RATE_OF_FIRE;
             Shoot();
             //Debug.Log("fiyuv");
         }
@@ -45,21 +44,31 @@ public class Gun : MonoBehaviour
         
     }
 
-    private void Shoot() { //raycasti update içinde yazsak daha mý iyi olur?
+    private void Shoot() { 
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f)) {
-            debugTransformObject.position = raycastHit.point;
+            //debugTransformObject.position = raycastHit.point;
             CreateBulletHole(raycastHit);
             if(raycastHit.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rb)) {
                 rb.AddExplosionForce(500f, raycastHit.point, 5f);
             }
         }
         muzzleEffect.Play();
+        gunAnimatorManager.PlayRecoilAnimation();
     }
 
-    
+    public void Reload() {
+        if (!IsReloading) { //&& !isshooting ekleyelim?
+            IsReloading = true;
+            reloadTimeCounter = DEFAULT_RELOAD_TIME;
+            gunAnimatorManager.PlayReloadAnimation();
+        }
+    }
 
+    public void SetState(bool isShooting) {
+        IsShooting = isShooting;
+    }
     private void CreateBulletHole(RaycastHit raycastHit) { //bura cemileye emanet
         // 1. Z-Fighting (Titreþim) sorunlarýný önlemek için ofsetler
         float baseOffset = 0.001f;
@@ -105,9 +114,8 @@ public class Gun : MonoBehaviour
             // Ebeveyn atama (SetParent yapma)
         }
         float life = 5f;
-        Destroy(bulletHole, life); 
+        Destroy(bulletHole, life);
     }
-
     //private void CreateBulletHole(RaycastHit raycastHit) {
     //    float baseOffset = 0.001f;
     //    float randomOffset = Random.Range(0.000f, 0.002f);
@@ -117,9 +125,7 @@ public class Gun : MonoBehaviour
 
     //    //Destroy(currentBulletHole, life);
     //}
-    public void SetState(bool isShooting) {
-        IsShooting = isShooting;
-    }
+
     //public void Shoot() { 
     //    Vector3 aimDir = (mouseWorldPosition - bulletSpawnPoint.position).normalized;
     //    var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(aimDir, Vector3.up));
@@ -131,8 +137,5 @@ public class Gun : MonoBehaviour
     //    this.mouseWorldPosition = mouseWorldPosition;
     //    IsFiring = isFiring;
     //}
-
-
-    
 
 }

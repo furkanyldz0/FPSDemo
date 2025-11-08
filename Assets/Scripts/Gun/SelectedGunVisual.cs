@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectedGunVisual : MonoBehaviour
+public class SelectedGunVisual : MonoBehaviour //script selected nesnesine atalý
 {
     //bu script selected nesnesine atalý
-    [SerializeField] private Gun SelectedGun;
+    [SerializeField] private GunController SelectedGun; //silahýn tipini kontrol etmek için, silahýn kendisi
     [SerializeField] private GameObject VisualGameObject;
     [SerializeField] private GameObject SelectedGameObject;
 
@@ -16,7 +16,7 @@ public class SelectedGunVisual : MonoBehaviour
 
     //bu eventi SetSelectedGun çaðýrýyor
     private void Instance_OnSelectedGunChanged(object sender, Player.OnSelectedGunChangedEventArgs e) {
-        if(e.selectedGun == SelectedGun) {
+        if(e.selectedGun == SelectedGun) { //ayný silah mý
             Show();          
         }
         else {
