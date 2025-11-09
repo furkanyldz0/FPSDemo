@@ -2980,6 +2980,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5686950082635384008, guid: 28fd76a95a25b0f48b01e54314b7fc45,
+        type: 3}
+      propertyPath: animationSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5707421996667207768, guid: 28fd76a95a25b0f48b01e54314b7fc45,
         type: 3}
       propertyPath: debugTransformObject

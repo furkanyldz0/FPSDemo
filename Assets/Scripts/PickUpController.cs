@@ -55,6 +55,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
 
     private void DisableGun(GunController gun) {
         gun.enabled = false;
+        gun.GetComponent<GunController>().enabled = false;
         gun.GetComponent<GunAnimator>().enabled = false; //animator scriptini kapatýyoruz direkt
         gun.GetComponent<Animator>().enabled = false;
         gun.GetComponent<CapsuleCollider>().enabled = true;
@@ -63,6 +64,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
     }
     private void EnableGun(GunController gun) {
         gun.enabled = true;
+        gun.GetComponent<GunController>().enabled = true;
         gun.GetComponent<GunAnimator>().enabled = true; //animator scriptini kapatýyoruz direkt
         gun.GetComponent<Animator>().enabled = true;
         gun.GetComponent<CapsuleCollider>().enabled = false;

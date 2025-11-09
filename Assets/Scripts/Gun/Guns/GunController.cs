@@ -14,15 +14,15 @@ public class GunController : MonoBehaviour
     public bool IsShooting { get; private set; }
 
     private Vector3 mouseWorldPosition;
-    private float RATE_OF_FIRE; //= 0.07f;
-    private float DEFAULT_RELOAD_TIME;// = 2.4f animasyonun süresi, bunu doðrudan almak lazým
+    private float RATE_OF_FIRE;
+    private float DEFAULT_RELOAD_TIME;
     private float shootCounter;
     private float reloadTimeCounter; // (clip'e event ekleyerek sayacý da kaldýrabiliyormuþuz ama ileride yapýcam
 
     //[SerializeField] private Transform debugTransformObject;
 
     private void Start() {
-        gunType = GetComponent<IGun>(); //artýk her silah için farklý script yazmama gerek yok (?)
+        gunType = GetComponent<IGun>(); //artýk her silah için farklý script yazmama gerek yok
         RATE_OF_FIRE = gunType.RATE_OF_FIRE;
         DEFAULT_RELOAD_TIME = gunType.RELOAD_TIME;
     }
@@ -30,12 +30,11 @@ public class GunController : MonoBehaviour
 
         shootCounter -= Time.deltaTime;
 
-        if (!IsReloading && (IsShooting && shootCounter <= 0f)) { //
+        if (!IsReloading && (IsShooting && shootCounter <= 0f)) { 
             shootCounter = RATE_OF_FIRE;
             Shoot();
-            //Debug.Log("fiyuv");
         }
-        else if (IsReloading) {
+        else if (IsReloading) { //ateþ ederken pat diye reload etsin sýkýntý yok
             reloadTimeCounter -= Time.deltaTime;
             if(reloadTimeCounter <= 0f) {
                 IsReloading = false;
@@ -59,7 +58,7 @@ public class GunController : MonoBehaviour
     }
 
     public void Reload() {
-        if (!IsReloading) { //&& !isshooting ekleyelim?
+        if (!IsReloading) {
             IsReloading = true;
             reloadTimeCounter = DEFAULT_RELOAD_TIME;
             gunAnimatorManager.PlayReloadAnimation();

@@ -371,10 +371,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.12
-  m_Height: 0.34
+  m_Radius: 0.09
+  m_Height: 0.32
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.02, z: -0.015}
 --- !u!54 &7898746809766167960
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1079,6 +1079,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2452487823905016155}
     m_Modifications:
+    - target: {fileID: 1741178410579853483, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1741178410579853483, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1741178410579853483, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1741178410579853483, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5312609023232509465, guid: ec7752ca560049c44a57af315bb82bea,
         type: 3}
       propertyPath: m_LocalPosition.x

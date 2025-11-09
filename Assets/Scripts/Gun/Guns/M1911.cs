@@ -12,7 +12,7 @@ public class M1911 : MonoBehaviour, IGun
 
     public float RATE_OF_FIRE {
         get {
-            return .3f;
+            return .25f;
         }
     }
 }
