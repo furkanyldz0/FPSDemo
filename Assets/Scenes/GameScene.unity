@@ -446,6 +446,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2008566126}
     m_Modifications:
+    - target: {fileID: 859631561950736137, guid: 8908d7667c66066498fa8f1f994db543,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05186473
+      objectReference: {fileID: 0}
+    - target: {fileID: 859631561950736137, guid: 8908d7667c66066498fa8f1f994db543,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.04769017
+      objectReference: {fileID: 0}
     - target: {fileID: 2452487823905016155, guid: 8908d7667c66066498fa8f1f994db543,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -505,6 +515,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568569186779063565, guid: 8908d7667c66066498fa8f1f994db543,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1387274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632906731930824709, guid: 8908d7667c66066498fa8f1f994db543,
+        type: 3}
+      propertyPath: animationSpeed
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8683090575035010470, guid: 8908d7667c66066498fa8f1f994db543,
         type: 3}
@@ -4668,6 +4688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2008566126}
   - component: {fileID: 2008566127}
+  - component: {fileID: 2008566128}
   m_Layer: 0
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -4704,6 +4725,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c5b98f5f114b540b04554de2f37e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2008566128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008566125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd66714b2e6f42499ff823c2cfa6843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guns: []
 --- !u!1 &2012719728
 GameObject:
   m_ObjectHideFlags: 0
@@ -5171,7 +5205,7 @@ MonoBehaviour:
   gun: {fileID: 1022872020}
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
 --- !u!4 &4060144557150156015
 Transform:
   m_ObjectHideFlags: 0

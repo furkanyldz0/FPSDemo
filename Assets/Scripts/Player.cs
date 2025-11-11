@@ -64,8 +64,8 @@ public class Player : MonoBehaviour
     private void GameInput_OnInteractAction(object sender, EventArgs e) {
         if(selectedGun != null) {
             //selectedGun.Interact();
-            pickUpController.PickUpGun(selectedGun);
-            gun = selectedGun;
+            pickUpController.PickUpGun(selectedGun);//mevcut silahý bu metotta deðiþtiriyor
+            //gun = selectedGun;
         }
     }
     private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
@@ -235,6 +235,9 @@ public class Player : MonoBehaviour
     }
     public GunController GetCurrentGun() {
         return gun;
+    }
+    public void SetCurrentGun(GunController gun) {
+        this.gun = gun;
     }
 
 

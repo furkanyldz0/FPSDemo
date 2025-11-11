@@ -16,8 +16,14 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
             DisableGun(g);
         }
 
-        currentGun = Player.Instance.GetCurrentGun();
-        EnableGun(currentGun);
+        //currentGun = Player.Instance.GetCurrentGun();
+        //EnableGun(currentGun);
+
+        //weaponholder'in altýndaki silahlar
+        GunController[] weaponsEquipped = transform.GetComponentsInChildren<GunController>();
+        foreach (GunController g in weaponsEquipped) {
+            EnableGun(g);
+        }
     }
 
 
@@ -29,9 +35,12 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         currentGun.transform.localScale = Vector3.one; //tekrar parente atýnca scale'i kendi kendine deðiþiyor
         EnableGun(currentGun);
+        PlayerSetCurrentGun(gun);
     }
 
+
     public void DropCurrentGun() {
+        currentGun = Player.Instance.GetCurrentGun();
         if(currentGun != null) {
             DisableGun(currentGun);
             currentGun.transform.SetParent(null);
@@ -40,7 +49,7 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
             float dropForwardForce = 2f;
             float dropUpwardForce = 2f;
 
-            currentGunRb.velocity = player.GetComponent<CharacterController>().velocity;
+            currentGunRb.velocity = player.GetComponent<CharacterController>().velocity / 2;
 
             currentGunRb.AddForce(player.transform.forward * dropForwardForce, ForceMode.Impulse);
             currentGunRb.AddForce(player.transform.up * dropUpwardForce, ForceMode.Impulse);
@@ -70,5 +79,9 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         gun.GetComponent<CapsuleCollider>().enabled = false;
         gun.GetComponent<Rigidbody>().isKinematic = true;
         gun.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    private void PlayerSetCurrentGun(GunController gun) {
+        Player.Instance.SetCurrentGun(gun);
     }
 }
