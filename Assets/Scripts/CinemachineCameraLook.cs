@@ -21,9 +21,13 @@ public class CinemachineCameraLook : MonoBehaviour
     }
 
     private void RotateCamera() {
-        float rotationSpeed = 5f;
+        //float rotationSpeed = 5f;
+        float mouseX = Player.Instance.gameInput.GetMouseDelta().x;
+        float mouseY = Player.Instance.gameInput.GetMouseDelta().y;
+        float mouseSensivity = 0.25f;
 
-        cinemachineTargetPitch += rotationSpeed * Input.GetAxisRaw("Mouse Y");
+        //cinemachineTargetPitch += rotationSpeed * Input.GetAxisRaw("Mouse Y");
+        cinemachineTargetPitch += mouseY * mouseSensivity;
 
         cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
 
@@ -31,7 +35,8 @@ public class CinemachineCameraLook : MonoBehaviour
         cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(-cinemachineTargetPitch, 0f, 0f);
 
         //sadece sað ve sola döndürür, yukarý +1 ile çarparak y ekseni etrafýnda dönmesini saðlýyoruz 
-        transform.Rotate(Vector3.up * rotationSpeed * Input.GetAxisRaw("Mouse X"));
+        //transform.Rotate(Vector3.up * rotationSpeed * Input.GetAxisRaw("Mouse X"));
+        transform.Rotate(Vector3.up * mouseX * mouseSensivity);
         //mevcut açýnýn üstüne ekler
     }
 

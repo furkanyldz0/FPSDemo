@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5568569186779063565}
   - component: {fileID: 1987675829245365800}
   - component: {fileID: 4844481812350600557}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3028864953650963969}
   - component: {fileID: 1102331001734858314}
   - component: {fileID: 5236753652427232841}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7110398138058525354}
   - component: {fileID: 315174684241161493}
   - component: {fileID: 1436284598662785910}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 8089776351875538739}
   - component: {fileID: 8533569758756583143}
   - component: {fileID: 5613688809952827058}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 8041183806367227304}
   - component: {fileID: 1270655541215253972}
   - component: {fileID: 2991344030098956814}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4083421618025449263}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8223962949281190590}
   - component: {fileID: 3332130257262930756}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Selected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 4119692055977336566}
   - component: {fileID: 1382721478881852950}
   - component: {fileID: 3876298902681397681}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -746,7 +746,7 @@ GameObject:
   - component: {fileID: 9131434835843189393}
   - component: {fileID: 7866802263577477333}
   - component: {fileID: 3654559053167777245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,7 +829,7 @@ GameObject:
   - component: {fileID: 859631561950736137}
   - component: {fileID: 3381746319431841446}
   - component: {fileID: 4728537127027768747}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +912,7 @@ GameObject:
   - component: {fileID: 1576573534575420987}
   - component: {fileID: 3163323854613025123}
   - component: {fileID: 4191923262505782591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 1023513560092864538}
   - component: {fileID: 43867429977331897}
   - component: {fileID: 6420781980069996968}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: M1911Selected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,6 +1079,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2452487823905016155}
     m_Modifications:
+    - target: {fileID: 927991157118461522, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1741178410579853483, guid: ec7752ca560049c44a57af315bb82bea,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -1153,6 +1158,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: M249Muzzle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6520403100273000762, guid: ec7752ca560049c44a57af315bb82bea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

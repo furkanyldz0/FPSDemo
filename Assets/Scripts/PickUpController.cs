@@ -7,9 +7,11 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
 {
     private GunController currentGun;
     private Player player;
+    private WeaponSwitchController weaponSwitchController; //drop ve pickup iþlemi yapýldýðýnda silah listesinin güncellenmesi gerekiyor, o yüzden nesnesi lazým
     void Start()
     {
         player = Player.Instance;
+        weaponSwitchController = transform.GetComponent<WeaponSwitchController>();
 
         GunController[] guns = FindObjectsByType<GunController>(FindObjectsSortMode.None);
         foreach(GunController g in guns) {
@@ -24,11 +26,15 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         foreach (GunController g in weaponsEquipped) {
             EnableGun(g);
         }
+
     }
 
 
     public void PickUpGun(GunController gun) {
-        DropCurrentGun();
+        //DropCurrentGun();
+        if(currentGun != null) {
+            currentGun.gameObject.SetActive(false);
+        }
         currentGun = gun;
         currentGun.transform.SetParent(transform);
         currentGun.transform.localPosition = Vector3.zero;
@@ -36,6 +42,8 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
         currentGun.transform.localScale = Vector3.one; //tekrar parente atýnca scale'i kendi kendine deðiþiyor
         EnableGun(currentGun);
         PlayerSetCurrentGun(gun);
+        weaponSwitchController.UpdateWeaponList();
+        weaponSwitchController.SelectExistedWeapon();
     }
 
 
@@ -59,6 +67,9 @@ public class PickUpController : MonoBehaviour //bu script sadece weaponholder ne
 
             currentGunRb = null;
             currentGun = null; //havadayken de g'ye basabiliyor null olmazsa
+            PlayerSetCurrentGun(null);
+            weaponSwitchController.UpdateWeaponList();
+            weaponSwitchController.SelectExistedWeapon();
         }
     }
 

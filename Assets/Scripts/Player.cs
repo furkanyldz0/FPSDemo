@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private GunController selectedGun; //sürekli deðiþiyor
 
     [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private GameInput gameInput;
+    [SerializeField] public GameInput gameInput;
     [SerializeField] private GunController gun;
     private CharacterController characterController;
     private PickUpController pickUpController;
@@ -69,7 +69,9 @@ public class Player : MonoBehaviour
         }
     }
     private void GameInput_OnReloadAction(object sender, System.EventArgs e) {
-        gun.Reload();
+        if(gun != null) {
+            gun.Reload();
+        }
     }
 
     private void GameInput_OnDashAction(object sender, EventArgs e) {
@@ -210,7 +212,9 @@ public class Player : MonoBehaviour
 
     private void HandleShooting() {
         //gun.SetState(IsShooting(), mouseWorldPosition);
-        gun.SetState(IsShooting());
+        if(gun != null) {
+            gun.SetState(IsShooting());
+        }
     }
     private void Land() {
         if (!IsGrounded()) {

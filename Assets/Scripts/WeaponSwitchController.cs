@@ -40,7 +40,7 @@ public class WeaponSwitchController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             selectedWeapon = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && weapons.Length > 1) {
+        if (Input.GetKeyDown(KeyCode.Alpha2) && weapons.Length > 1) { //
             selectedWeapon = 1;
         }
         if (lastWeapon != selectedWeapon) {
@@ -64,15 +64,23 @@ public class WeaponSwitchController : MonoBehaviour
     public void UpdateWeaponList() {
         weapons = transform.GetComponentsInChildren<GunController>(includeInactive: true);
     }
+    
+    public void SelectExistedWeapon() {
+        if(selectedWeapon > 0) {
+            selectedWeapon--;
+        }
+        else if (selectedWeapon < 0) {
+            selectedWeapon = weapons.Length - 1;
+        }
+        SelectWeapon();
+    }
+
     private void ActivateWeapon(GunController weapon) {
         weapon.gameObject.SetActive(true);
         Player.Instance.SetCurrentGun(weapon);
-        weapon.GetComponent<GunAnimator>().enabled = true;
         Debug.Log(weapon.ToString());
     }
     private void DeactivateWeapon(GunController weapon) {
         weapon.gameObject.SetActive(false);
-        weapon.GetComponent<GunAnimator>().enabled = false;
-        
     }
 }

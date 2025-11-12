@@ -86,6 +86,12 @@ public class GameInput : MonoBehaviour
         return inputVector;
     }
 
+    public Vector2 GetMouseDelta() {
+        Vector2 lookVector = inputActionSystem.Player.Look.ReadValue<Vector2>();
+
+        return lookVector;
+    }
+
     public bool IsSprinting() {
         return isSprinting;
     }

@@ -6,7 +6,7 @@ public class M1911 : MonoBehaviour, IGun
 {
     public float RELOAD_TIME {
         get {
-            return 1.5f;
+            return 1.4f;
         }
     }
 
