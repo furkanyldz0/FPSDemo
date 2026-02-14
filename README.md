@@ -1,5 +1,9 @@
 # FPSDemo
 
+- Left-Click Button: Fire
+- E: Pick Selected Weapon
+- G: Drop Weapon
+
 **In-game screenshots:**
 
 <img src="images/Screenshot_1.png" width="100%" alt="Screenshot 1">
